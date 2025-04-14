@@ -1,0 +1,58 @@
+# lane2seq_project/configs/config.yaml
+
+# General
+seed: 42
+device: cuda  # or 'mps' if you are on Mac M1/M2
+
+# Paths
+data_path: ../archive/TUSimple/train_set
+encoder_checkpoint: pretraining_vit/outputs/checkpoint-19280/  # replace with actual path
+save_dir: checkpoints/
+log_file: logs/train.log
+
+# Training
+epochs: 50
+batch_size: 16
+learning_rate: 1e-3
+resume_from_checkpoint: null  # path to checkpoint to resume or null
+save_best_only: true
+
+# Model
+image_size: [320, 800]
+vocab_size: 1007
+hidden_size: 256
+num_layers: 2
+num_heads: 8
+ff_size: 1024
+max_seq_length: 512
+
+# Augmentation
+augmentation:
+  random_flip: true
+  random_affine:
+    enabled: true
+    degrees: 10
+    translate: [0.1, 0.1]
+    scale: [0.8, 1.2]
+    shear: 10
+
+# Optimizer
+optimizer: AdamW
+weight_decay: 0.01
+
+# Checkpoint saving
+save_every_epoch: true
+
+# Format type
+format_type: segmentation
+
+# Inference settings
+inference:
+  data_path: ../archive/TUSimple/test_set/
+  checkpoint: "checkpoints/best_model.pth"
+  output_dir: "results/inference"
+
+# Evaluation settings
+evaluation:
+  ground_truth_dir: "../archive/TUSimple/test_set/label_data.json"
+  prediction_dir: "results/inference"
