@@ -40,8 +40,10 @@ Key aspects of the Lane2Seq pipeline:
 - **Pre-training**: Before fine-tuning on the lane detection task, the ViT encoder is pre-trained using a **Masked Autoencoder (MAE)** strategy on an unlabeled dataset to learn meaningful spatial and contextual representations.
 - **Fine-tuning**: The encoder is fine-tuned with supervised learning using cross-entropy loss to generate lane sequences from input images.
 - **Inference**: At inference time, the model generates lane sequences token-by-token, which are later decoded into lane coordinates or parameters.
-
-Lane2Seq eliminates the need for task-specific heads or post-processing steps, making it a flexible and scalable solution for lane detection tasks.
+- **Semantic Segmentation**: for Lane Detection: As part of the Lane2Seq pipeline, we implemented the traditional semantic segmentation approach using PyTorch. This involved training a neural network to predict lane masks from input images, using binary cross-entropy (BCE) loss for pixel-level lane detection. The segmentation model was trained on the TuSimple dataset, and the predicted lane masks were compared to the ground truth masks.
+- **Model Training and Inference**: We worked on preprocessing the dataset, setting up the training pipeline, and evaluating the model's performance. The trained model provided a baseline for lane detection that could be compared with the more advanced Lane2Seq sequence generation approach.
+  
+Lane2Seq eliminates the need for task-specific heads or post-processing steps, making it a flexible and scalable solution for lane detection tasks. The semantic segmentation model serves as an essential comparison point, highlighting the advantages of sequence generation methods over pixel-wise segmentation in terms of flexibility and efficiency.
 
 ---
 
