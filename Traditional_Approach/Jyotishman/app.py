@@ -560,7 +560,7 @@ import streamlit as st
 import cv2
 import numpy as np
 import tempfile
-import base64
+import os
 
 st.set_page_config(layout="wide")
 st.title("🛣️ Video Lane Detection")
@@ -645,41 +645,46 @@ if uploaded_file:
     tfile.write(uploaded_file.read())
     cap = cv2.VideoCapture(tfile.name)
 
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    output_path = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4').name
-    fps = int(cap.get(cv2.CAP_PROP_FPS))
-    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
+    # Check if video opened
+    if not cap.isOpened():
+        st.error("Failed to open uploaded video.")
+    else:
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        output_path = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4').name
+        fps = int(cap.get(cv2.CAP_PROP_FPS)) or 24
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
-    frame_count = 0
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
+        frame_count = 0
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
 
-        frame_count += 1
-        if frame_count % frame_skip != 0:
-            continue
+            frame_count += 1
+            if frame_count % frame_skip != 0:
+                continue
 
-        processed = detect_lanes(frame, color=color_dict[lane_color])
-        out.write(processed)
+            processed = detect_lanes(frame, color=color_dict[lane_color])
+            out.write(processed)
 
-    cap.release()
-    out.release()
-    st.success("Video processing complete!")
-    # Show success message
-st.success(" Video processing complete!")
+        cap.release()
+        out.release()
 
-# Read the processed video as bytes
-with open(output_path, 'rb') as f:
-    video_bytes = f.read()
+        # Confirm success
+        st.success("✅ Video processing complete!")
 
-# Offer download button
-st.download_button(
-    label="⬇️ Download Processed Video",
-    data=video_bytes,
-    file_name='processed_lane_video.mp4',
-    mime='video/mp4'
-)
+        # Download option
+        with open(output_path, 'rb') as f:
+            video_bytes = f.read()
 
+        st.download_button(
+            label="⬇️ Download Processed Video",
+            data=video_bytes,
+            file_name="processed_lane_video.mp4",
+            mime="video/mp4"
+        )
+
+        # Optional preview
+        st.video(video_bytes)
