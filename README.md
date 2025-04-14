@@ -135,7 +135,7 @@ The results demonstrate that both methods are effective for lane detection, with
 ---
 ---
 
-## 🧠 Future Work
+## Future Work
 
 - **Training on larger datasets**: Expand training to include larger and more diverse datasets like **CULane** and **LLAMAS** for better generalization.
 - **Transformer Decoding Enhancement**: Improve the transformer decoding process by implementing **beam search** or other advanced decoding strategies.
@@ -158,8 +158,12 @@ Special thanks to **Kunyang Zhou** for the guidance and response on email, and t
 
 ---
 
-## 🤖 License
+## 📌 Authors
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- Jyotishman Das  
+- Pranjal Malik
+- Suvigya Sharma
+- Shreyansh Pathak
+- Shivani Tiwari
 
 ---
