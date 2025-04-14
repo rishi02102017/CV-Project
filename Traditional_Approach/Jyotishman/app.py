@@ -644,10 +644,14 @@ if uploaded_file:
     tfile.write(uploaded_file.read())
     cap = cv2.VideoCapture(tfile.name)
 
-    stframe = st.empty()
-    first_frame_displayed = False
-    frame_count = 0
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    output_path = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4').name
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
+    frame_count = 0
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
@@ -658,14 +662,9 @@ if uploaded_file:
             continue
 
         processed = detect_lanes(frame, color=color_dict[lane_color])
-
-        if not first_frame_displayed:
-            with st.sidebar:
-                st.markdown("### 🖼️ First Frame Preview")
-                st.image(frame, channels="BGR", use_container_width=True)
-            first_frame_displayed = True
-
-        stframe.image(processed, channels="BGR", caption=f"Processed Frame {frame_count}")
+        out.write(processed)
 
     cap.release()
-    st.success(" Video processing complete!")
+    out.release()
+    st.success("Video processing complete!")
+    st.video(output_path)
