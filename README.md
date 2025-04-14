@@ -22,11 +22,30 @@ The **Traditional Approach** leverages classical computer vision techniques for 
 
 Key steps in the pipeline:
 - **Color Space Transformation**: The image is transformed into the HLS color space to enhance lane visibility, particularly for white and yellow lanes.
-- **Edge Detection**: Sobel operators are used to detect vertical edges corresponding to lane boundaries.
+- **Hough Transform**: for Line Detection: Using the Probabilistic Hough Transform
+to detect linear lane segments from edge-detected images within the ROI.
+- **Edge Detection using Canny**: Detecting lane boundaries by applying the Canny
+edge detector, which highlights strong gradient changes associated with lane lines.
+- **Multi-Threshold Detection**: Applying specific color thresholds to isolate lane mark-
+ings based on their distinctive hue and lightness properties.
+- **Gradient-Based Edge Detection**: Using Sobel operators to identify vertical edges
+corresponding to lane boundaries.
 - **Region of Interest (ROI) Masking**: A trapezoidal mask is applied to focus processing on the road area and ignore irrelevant regions.
 - **Perspective Transformation**: A homography is applied to transform the perspective to a bird’s-eye view, making lane lines appear parallel.
 - **Sliding Window Detection**: Lane positions are identified through histogram analysis, tracking them vertically using adaptive windows.
 - **Polynomial Fitting**: Lanes are represented as second-degree curves (ax² + bx + c) to model their shape and curvature.
+- **Slope-Based Lane Classification**: Separating detected lines into left and right lanes
+based on the sign and magnitude of their slope, eliminating horizontal and vertical
+noise.
+- **Dynamic Line Averaging**: Averaging multiple line segments on both sides to pro-
+duce a stable representation of left and right lane boundaries.
+- **Real-Time Frame Processing**: Processing live video streams frame-by-frame using
+OpenCV, with frame skipping for efficiency and smooth playback.
+- **Interactive Parameter Tuning**: Providing user control over edge detection, line
+detection, and frame rate settings via Streamlit sliders, enabling dynamic adjustment
+to different lighting and road conditions.
+- **Lane Overlay Visualization**: Overlaying detected lanes on original video frames
+using weighted blending to visualize results in real-time for user validation
 
 This method is implemented using **OpenCV** and provides real-time lane detection for video streams, with dynamic parameter tuning via a **Streamlit interface**.
 
