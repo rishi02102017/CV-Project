@@ -560,6 +560,7 @@ import streamlit as st
 import cv2
 import numpy as np
 import tempfile
+import base64
 
 st.set_page_config(layout="wide")
 st.title("🛣️ Video Lane Detection")
@@ -667,4 +668,18 @@ if uploaded_file:
     cap.release()
     out.release()
     st.success("Video processing complete!")
-    st.video(output_path)
+    # Show success message
+st.success(" Video processing complete!")
+
+# Read the processed video as bytes
+with open(output_path, 'rb') as f:
+    video_bytes = f.read()
+
+# Offer download button
+st.download_button(
+    label="⬇️ Download Processed Video",
+    data=video_bytes,
+    file_name='processed_lane_video.mp4',
+    mime='video/mp4'
+)
+
