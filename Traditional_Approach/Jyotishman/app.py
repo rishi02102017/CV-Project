@@ -666,7 +666,6 @@ if uploaded_file:
             first_frame_displayed = True
 
         stframe.image(processed, channels="BGR", caption=f"Processed Frame {frame_count}")
-        cv2.waitKey(10)
 
     cap.release()
     st.success(" Video processing complete!")
