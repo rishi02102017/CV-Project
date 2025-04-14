@@ -73,15 +73,23 @@ Before reinforcement learning tuning, the Lane2Seq model achieved the following 
 
 The following figures display lane detection outputs for both approaches, showcasing the capabilities of the Lane2Seq model in various formats (segmentation, anchor, and parameter-based) as well as the traditional method's output.
 
-**[Insert Screenshots of Lane2Seq Outputs]**
+## 📸 Lane2Seq Outputs
 
-**[Insert Screenshots of Traditional Approach Outputs]**
+![Lane2Seq Output](4.png)
+![Lane2Seq Output](3.png)
+
+---
+
+## 📸 Traditional Approach Outputs
+
+![Traditional Approach Output](lane_2.jpg)
+
 
 ### Traditional Approach Results
 
 The traditional approach successfully detects lanes in clear road conditions and demonstrates reliable lane detection with real-time video processing. However, it may struggle with complex road scenarios such as occlusions, sharp curves, and varying lighting conditions.
 
-**[Insert Screenshots of Traditional Approach Results in Video Mode]**
+![Traditional Approach Output](lane_1.jpg)
 
 ---
 
@@ -139,11 +147,11 @@ The results demonstrate that both methods are effective for lane detection, with
 ## 📜 Citation
 
 If you use this work in your research or projects, please cite it as follows:
+```
 
 @article{zhou2023lane2seq, title={Lane2Seq: Towards Unified Lane Detection via Sequence Generation}, author={Kunyang Zhou}, journal={arXiv preprint arXiv:2305.16458}, year={2023} }
 
 ```
-
 ## 🙏 Acknowledgements
 
 Special thanks to **Kunyang Zhou** for the guidance and response on email, and to the authors of **Pix2Seqv2** and **CLRNet** for making foundational tools open source.
